@@ -26,7 +26,7 @@
         </locale-config>
 
         <resource-bundle>
-            <base-name>sg.servicedesk.i18n.srvdsk</base-name>
+            <base-name>com.axa.control.i18n.control</base-name>
             <var>srvdsk</var>
         </resource-bundle>
 
