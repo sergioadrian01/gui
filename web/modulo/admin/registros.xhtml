@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:m="http://code.google.com/p/gmaps4jsf/">
+    <div class="layout-portlets-box">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+        <h:form id="records">
+
+            <div class="Container50 Responsive50">
+                <div class="ContainerIndent TexAlLeft">
+                    <h1 class="BigTopic TexAlLeft">Registros</h1>
+
+
+                    <p:dataTable var="punch" value="#{coordenadas.punchs}">
+
+                        <p:column headerText="Nombre">
+                            <h:outputText value="#{punch.fullname}"/>
+                        </p:column>
+
+                        <p:column headerText="Cuenta">
+                            <h:outputText value="#{punch.account}"/>
+                        </p:column>
+
+                        <p:column headerText="Evento">
+                            <h:outputText value="#{punch.event}"/>
+                        </p:column>
+
+                        <p:column headerText="Fecha y hora">
+                            <h:outputText value="#{punch.timeStamp}"/>
+                        </p:column>
+
+                        <p:column headerText="Ver">
+
+
+                            <h:commandButton value="localizacion" action="#{coordenadas.actualizarMapa}">
+
+                                <f:param name="latitud" value="#{punch.latitud}" />
+                                <f:param name="longitud" value="#{punch.longitud}" />
+
+                                <f:ajax render=":records:placeMap"/>
+                            </h:commandButton>
+                        </p:column>
+
+                    </p:dataTable>
+
+
+                </div>
+            </div>
+
+
+            <div class="Container50 Responsive50">
+                <div class="ContainerIndent TexAlLeft">
+                    <h1 class="BigTopic TexAlLeft">Localizacion</h1>
+
+                    <h:panelGroup id="placeMap">
+                        <m:map width="500" height="450px" latitude="#{coordenadas.selecLatitud}" longitude="#{coordenadas.selecLongitud}" enableScrollWheelZoom="true">
+                            <m:marker>
+                                <m:htmlInformationWindow htmlText="This is Cairo, Egypt"/>
+                            </m:marker>
+                        </m:map>
+
+                    </h:panelGroup>
+                </div>
+            </div>
+
+        </h:form>
+
+    </div>
+
+
+</ui:composition>

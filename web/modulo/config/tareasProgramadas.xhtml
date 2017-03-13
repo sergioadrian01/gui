@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+
+    <div class="layout-portlets-box">
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic">#{srvdsk['tareasProgramadas.tareasProgramadas']}</h1>
+
+                <div class="ContainerIndent TexAlCenter">
+                    <p:commandButton value="#{srvdsk['tareasProgramadas.nuevo']}" actionListener="#{facesLayout.renderContent}" update=":center" styleClass="Wid100">
+                        <f:attribute name="center" value="/modulo/config/tareasProgramadas-creacion.xhtml"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{srvdsk['tareasProgramadas.administracion']}" actionListener="#{facesLayout.renderContent}" update=":center" styleClass="Wid100">
+                        <f:actionListener binding="#{tareasProgramadasGestionView.init()}" />
+                        <f:attribute name="center" value="/modulo/config/tareasProgramadas-gestion.xhtml"/>
+                    </p:commandButton>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent">
+                <h1 class="BigTopic">#{srvdsk['tareasProgramadas.registros']}</h1>
+                <h:form id="tarea">
+                    <p:dataList value="#{tareasProgramadasView.listTareasProgramadas}" var="tarea" type="unordered" itemType="none" paginator="true" rows="7" styleClass="paginated">
+
+                        <p:panelGrid columns="3" layout="grid" style="border:0 none;background:none; width: 100%" columnClasses="Wid10, Wid60, Wid30">
+
+                            <p:commandLink update=":center:tarea:detalle" oncomplete="PF('tareaDetalle').show()" title="#{srvdsk['tareasProgramadas.verDetalle']}" style="margin-right:10px;">
+                                <f:setPropertyActionListener value="#{tarea}" target="#{tareasProgramadasView.tareasProgramadas}"/>
+                                <i class="fa fa-table gray Fs18" style="margin-top:5px;"/>
+                            </p:commandLink>
+
+                            <h:outputText value="#{tarea.nombre}" style="display:inline-block"/>
+
+                            <h:outputText value="#{srvdsk['tareasProgramadas.activo']}" style="display:inline-block" rendered="#{tarea.activo}"/>
+                            <h:outputText value="" style="display:inline-block" rendered="#{!tarea.activo}"/>
+
+                        </p:panelGrid>
+
+
+                    </p:dataList>
+
+
+                    <p:dialog header="#{srvdsk['tareasProgramadas.detalle']}" widgetVar="tareaDetalle" modal="true" showEffect="blind" hideEffect="slide" resizable="false">
+                        <p:outputPanel id="detalle" style="text-align:left;">
+                            <p:panelGrid columns="2" rendered="#{not empty tareasProgramadasView.tareasProgramadas}" columnClasses="label,value" style="width: 100%">
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.nombre']}"/>
+                                <h:outputText value="#{tareasProgramadasView.tareasProgramadas.nombre}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.detalle']}"/>
+                                <h:outputText value="#{tareasProgramadasView.tareasProgramadas.detalle}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.organizacion']}"/>
+                                <h:outputText value="#{tareasProgramadasView.tareasProgramadas.organizacion.nombre}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.localidad']}"/>
+                                <h:outputText value="#{tareasProgramadasView.tareasProgramadas.localidad}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.tipoElemento']}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.servidor']}" rendered="#{tareasProgramadasView.tareasProgramadas.tipoElemento == 1}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.app']}" rendered="#{tareasProgramadasView.tareasProgramadas.tipoElemento == 2}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periferico']}" rendered="#{tareasProgramadasView.tareasProgramadas.tipoElemento == 3}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.ddr']}" rendered="#{tareasProgramadasView.tareasProgramadas.tipoElemento == 4}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.elemento']}"/>
+                                <h:outputText value="#{tareasProgramadasView.tareasProgramadas.elementoString}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periodo']}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periodo.dia']}" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 1}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periodo.semana']}" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 2}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periodo.mes']}" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 3}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periodo.annio']}" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 4}"/>
+                                <h:outputText value="#{srvdsk['tareasProgramadas.periodo.fechaEspecifica']}" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 5}"/>
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.fecha']}" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 5}"/>
+                                <p:calendar value="#{tareasProgramadasView.tareasProgramadas.fecha}" readonlyInput="true" disabled="true" rendered="#{tareasProgramadasView.tareasProgramadas.periodo == 5}"/>
+
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.activo']}"/>
+                                <p:inputSwitch disabled="true" value="#{tareasProgramadasView.tareasProgramadas.activo}" />
+
+                                <h:outputText value="#{srvdsk['tareasProgramadas.usuarioProgramo']}"/>
+                                <h:outputText value="#{tareasProgramadasView.tareasProgramadas.usuario.persona.nombre} #{tareasProgramadasView.tareasProgramadas.usuario.persona.apellidos}"/>
+
+
+                            </p:panelGrid>
+
+                        </p:outputPanel>
+                    </p:dialog>
+
+                </h:form>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

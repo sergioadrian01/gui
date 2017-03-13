@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="show_sql">false</property>
+        <property name="javax.persistence.validation.mode">none</property>
+
+
+        <!--Administración
+        <mapping resource="com/sg/servicedesk/mapping/admin/organizacion.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/corteTickets.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/localidad.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/localidad_negocio.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/direccion.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/persona.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/servicio.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/categoria.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/subCategoria.hbm.xml" />
+
+        <mapping resource="com/sg/servicedesk/mapping/admin/rol.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/admin/usuario.hbm.xml" />
+
+        -->
+
+        <!--Sistema
+        <mapping resource="com/sg/servicedesk/mapping/sistema/estatus.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/sistema/criticidad.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/sistema/bitacora.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/sistema/notificacion.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/sistema/propiedades.hbm.xml" />
+
+        -->
+
+        <!--Ticket
+        <mapping resource="com/sg/servicedesk/mapping/ticket/ticket.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/tipo.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/opcion.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/campo.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/transito.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/comentario.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/archivo.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/gasto.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/ticket/valoresPersonalizados.hbm.xml" />
+
+        -->
+
+
+        <!--Configuración
+        <mapping resource="com/sg/servicedesk/mapping/config/catalogoetapa.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/catalogorequerimiento.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/ciclovida.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/configuracion.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/etapa.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/requerimiento.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/tareasProgramadas.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/config/gposoporte.hbm.xml" />
+
+        -->
+
+        <!--Catalogos
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/catalogotiposcmdb.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/cmdb.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/servidores.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/aplicacion.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/perifericos.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/dispositivo.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/clasificacion.hbm.xml"/>
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/situacion.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/catalogos/fuente.hbm.xml" />
+
+        -->
+
+
+        <!--Catalogos
+
+        <mapping resource="com/sg/servicedesk/mapping/kb/articulo.hbm.xml" />
+        <mapping resource="com/sg/servicedesk/mapping/kb/tag.hbm.xml" />
+
+        -->
+
+
+
+
+
+    </session-factory>
+</hibernate-configuration>

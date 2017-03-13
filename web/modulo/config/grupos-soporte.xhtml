@@ -1,0 +1,179 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:P="http://java.sun.com/jsf/html">
+    <div class="layout-portlets-box">
+
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+        <div class="Container100 Responsive100">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic TexAlLeft">#{srvdsk['configuracion.grupos.titulo']}</h1>
+
+
+                <p:selectOneMenu id="organizaciones" value="#{grupoSoporteView.orgSeleccionada}">
+                    <f:selectItem itemLabel="#{srvdsk['ticket.organizacion']}" itemValue="0" noSelectionOption="true"/>
+                    <f:selectItems value="#{grupoSoporteView.listOrganizacion}" var="orgFilter" itemValue="#{orgFilter.id}" itemLabel="#{orgFilter.nombre}"/>
+                </p:selectOneMenu>
+
+                <p:spacer width="20px"/>
+                <p:commandButton value="#{srvdsk['configuracion.grupos.obtener']}" actionListener="#{grupoSoporteView.obtenerGrupos}" process="@all" update=":center"/>
+
+
+            </div>
+        </div>
+
+        <p:panel id="controles" rendered="#{grupoSoporteView.seleccion}">
+
+            <p:spacer height="20px"/>
+
+            <div class="Container100 Responsive100">
+                <div class="ContainerIndent TexAlLeft">
+
+                    <h1 class="Fs18 TexAlLeft">#{srvdsk['configuracion.grupos.primer']}</h1>
+
+                    <p:outputPanel id="PrimerNivelPanel" style="text-align:left;">
+
+                        <div class="Container40 blue Responsive">
+                            <div class="ContainerIndent">
+
+                                <p:inputText value="#{grupoSoporteView.valorPrimerNivel}" style="width: 95%" id="valor1Nivel" required="false"/>
+                            </div>
+                        </div>
+
+                        <div class="Container20 blue Responsive">
+                            <div class="ContainerIndent">
+
+                                <p:commandButton id="add1Nivel" style="width: 100%" process="@this valor1Nivel organizaciones" actionListener="#{grupoSoporteView.agregarPrimerNivel}" update="PrimerNivelPanel" value="#{srvdsk['admon.campos.opciones.agregar']}" icon="fa fa-plus Fs16 white"/>
+
+                            </div>
+                        </div>
+
+
+                        <div class="Container40 blue Responsive">
+                            <div class="ContainerIndent">
+
+                                <p:dataList id="primerNivel" value="#{grupoSoporteView.grupoPrimerNivel}" var="primer" type="unordered" itemType="none" emptyMessage="#{srvdsk['saldo.vacio']}">
+
+                                    <h:outputText value="#{primer.nombreGpo}" style="display:inline-block"/>
+
+
+                                    <p:commandLink style="float:right;margin-right:20px" actionListener="#{grupoSoporteView.quitarPrimerNivel(primer)}" process="@this" update="primerNivel">
+                                        <i class="fa  fa-envelope-o"/>
+                                    </p:commandLink>
+
+                                    <p:commandLink style="float:right;margin-right:10px" actionListener="#{grupoSoporteView.quitarPrimerNivel(primer)}" process="@this" update="primerNivel">
+                                        <i class="fa fa-trash"/>
+                                    </p:commandLink>
+
+
+                                </p:dataList>
+
+                            </div>
+                        </div>
+
+
+                    </p:outputPanel>
+
+                </div>
+            </div>
+
+            <p:spacer height="20px"/>
+
+            <div class="Container100 Responsive100">
+                <div class="ContainerIndent TexAlLeft">
+
+                    <h1 class="Fs18 TexAlLeft">#{srvdsk['configuracion.grupos.segundo']}</h1>
+
+
+                    <p:outputPanel id="SegundoNivelPanel" style="text-align:left;">
+
+                        <div class="Container40 blue Responsive">
+                            <div class="ContainerIndent">
+                                <p:inputText value="#{grupoSoporteView.valorSegundoNivel}" style="width: 95%" id="valor2Nivel" required="false"/>
+                            </div>
+                        </div>
+
+
+                        <div class="Container20 blue Responsive">
+                            <div class="ContainerIndent">
+                                <p:commandButton id="add2Nivel" style="width: 100%" process="@this valor2Nivel organizaciones" actionListener="#{grupoSoporteView.agregarSegundoNivel}" update="SegundoNivelPanel" value="#{srvdsk['admon.campos.opciones.agregar']}" icon="fa fa-plus Fs16 white"/>
+                            </div>
+                        </div>
+
+                        <div class="Container40 blue Responsive">
+                            <div class="ContainerIndent">
+                                <p:dataList id="segundoNivel" value="#{grupoSoporteView.grupoSegundoNivel}" var="segundo" type="unordered" itemType="none" emptyMessage="#{srvdsk['saldo.vacio']}">
+
+                                    <h:outputText value="#{segundo.nombreGpo}" style="display:inline-block"/>
+
+
+                                    <p:commandLink style="float:right;margin-right:20px" actionListener="#{grupoSoporteView.quitarSegundoNivel(segundo)}" process="@this" update="segundoNivel">
+                                        <i class="fa  fa-envelope-o"/>
+                                    </p:commandLink>
+
+                                    <p:commandLink style="float:right;margin-right:10px" actionListener="#{grupoSoporteView.quitarSegundoNivel(segundo)}" process="@this" update="segundoNivel">
+                                        <i class="fa fa-trash"/>
+                                    </p:commandLink>
+
+                                </p:dataList>
+                            </div>
+                        </div>
+
+
+                    </p:outputPanel>
+
+                </div>
+            </div>
+
+            <p:spacer height="20px"/>
+
+            <div class="Container100 Responsive100">
+                <div class="ContainerIndent TexAlLeft">
+
+                    <h1 class="Fs18 TexAlLeft">#{srvdsk['configuracion.grupos.tercer']}</h1>
+
+
+                    <p:outputPanel id="TercerNivelPanel" style="text-align:left;">
+
+                        <div class="Container40 blue Responsive">
+                            <div class="ContainerIndent">
+                                <p:inputText value="#{grupoSoporteView.valorTercerNivel}" style="width: 95%" id="valor3Nivel" required="false"/>
+                            </div>
+                        </div>
+
+                        <div class="Container20 blue Responsive">
+                            <div class="ContainerIndent">
+                                <p:commandButton id="add3Nivel" style="width: 100%" process="@this valor3Nivel organizaciones " actionListener="#{grupoSoporteView.agregaTercerNivel}" update="TercerNivelPanel" value="#{srvdsk['admon.campos.opciones.agregar']}" icon="fa fa-plus Fs16 white"/>
+                            </div>
+                        </div>
+
+                        <div class="Container40 blue Responsive">
+                            <div class="ContainerIndent">
+                                <p:dataList id="tercerNivel" value="#{grupoSoporteView.grupoTercerNivel}" var="tercer" type="unordered" itemType="none" emptyMessage="#{srvdsk['saldo.vacio']}">
+
+                                    <h:outputText value="#{tercer.nombreGpo}" style="display:inline-block"/>
+
+
+                                    <p:commandLink style="float:right;margin-right:20px" actionListener="#{grupoSoporteView.quitarTercerNivel(tercer)}" process="@this" update="tercerNivel">
+                                        <i class="fa  fa-envelope-o"/>
+                                    </p:commandLink>
+
+                                    <p:commandLink style="float:right;margin-right:10px" actionListener="#{grupoSoporteView.quitarTercerNivel(tercer)}" process="@this" update="tercerNivel">
+                                        <i class="fa fa-trash"/>
+                                    </p:commandLink>
+
+
+                                </p:dataList>
+                            </div>
+                        </div>
+
+
+                    </p:outputPanel>
+
+                </div>
+            </div>
+
+        </p:panel>
+
+    </div>
+
+
+</ui:composition>

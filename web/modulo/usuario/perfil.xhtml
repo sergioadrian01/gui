@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+
+    <div class="layout-portlets-box">
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic">#{srvdsk['perfil.titulo']}</h1>
+
+                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true">
+                    <p:effect type="bounce" event="load"/>
+                </p:messages>
+
+                <div class="ContainerIndent TexAlLeft">
+
+                    <p:panelGrid columns="2" columnClasses="Wid30, Wid70" layout="grid" style="border:0 none;background:none">
+
+
+                        <p:outputLabel for="nombre" value="#{srvdsk['perfil.nombres']}"/>
+                        <p:inputText id="nombre" styleClass="Wid80" value="#{perfilView.primerNombre}" style="width: 250px"/>
+
+                        <p:outputLabel for="apellidos" value="#{srvdsk['perfil.apellidos']}"/>
+                        <p:inputText id="apellidos" styleClass="Wid80" value="#{perfilView.apellidos}" style="width: 250px"/>
+
+                        <p:outputLabel for="correo" value="#{srvdsk['perfil.email']}"/>
+                        <p:inputText id="correo" styleClass="Wid80" value="#{perfilView.correo}" style="width: 250px"/>
+
+                        <p:outputLabel for="telefono" value="#{srvdsk['perfil.telefono']}"/>
+                        <p:inputText id="telefono" styleClass="Wid80" value="#{perfilView.telefono}" style="width: 250px"/>
+
+                        <p:outputLabel for="celular" value="#{srvdsk['perfil.celular']}"/>
+                        <p:inputText id="celular" styleClass="Wid80" value="#{perfilView.celular}" style="width: 250px"/>
+
+                    </p:panelGrid>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+
+
+
+                <div class="ContainerIndent TexAlCenter">
+
+                    <div class="EmptyBox50"></div>
+
+                    <p:commandButton value="#{srvdsk['perfil.guardar']}" ajax="false" action="#{perfilView.guardarPerfil}"  styleClass="Wid100" />
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</ui:composition>

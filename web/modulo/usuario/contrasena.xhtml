@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"  xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+    <div class="layout-portlets-box">
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic TexAlLeft">#{srvdsk['perfil.contrasena.cambio']}</h1>
+
+                <p:panelGrid columns="2" columnClasses="Wid30, Wid70" layout="grid" style="border:0 none;background:none">
+
+                    <h:outputLabel for="old" value="#{srvdsk['perfil.contrasena.viejo']}" />
+                    <p:password id="old" value="#{passwordView.oldPassword}"  required="true" />
+
+                    <h:outputLabel for="new1" value="#{srvdsk['perfil.contrasena.nuevo']}" />
+                    <p:password id="new1" value="#{passwordView.newPassword}" match="new2"  required="true"  feedback="true"/>
+
+                    <h:outputLabel for="new2" value="#{srvdsk['perfil.contrasena.repetir']}" />
+                    <p:password id="new2" value="#{passwordView.confirmation}"  required="true" />
+
+                </p:panelGrid>
+
+            </div>
+        </div>
+
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+
+                <div class="EmptyBox50"></div>
+
+                <p:panelGrid columns="1" columnClasses="Wid100" layout="grid" style="border:0 none;background:none">
+
+                    <p:commandButton value="#{srvdsk['perfil.contrasena.actualizar']}" actionListener="#{passwordView.setNewPAssword}" update=":center" style="width: 100%" />
+
+                </p:panelGrid>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</ui:composition>

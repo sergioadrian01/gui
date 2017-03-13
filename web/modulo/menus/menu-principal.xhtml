@@ -1,0 +1,89 @@
+<ui:composition
+
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://java.sun.com/jsf/html">
+
+
+    <div id="layout-topbar" class="ShadowGray">
+        <div id="layout-topbar-indent">
+            <p />
+            <a href="#"><h:graphicImage name="images/logo.png" styleClass="Fleft" library="spark-layout" id="logo" class="Fleft"/></a>
+            <a href="#" id="mobile-menu-button" class="BordRad3 white ShowOnMobile"><i class="fa fa-bars"></i> #{srvdsk['menu.modulos']}</a>
+            <a href="#" id="mobile-menu-button-gray" class="BordRad3 white ShowOnMobile"><i class="fa fa-caret-down"></i> #{srvdsk['menu.principal']}</a>
+
+            <ul id="layout-topbar-menu">
+                <li>
+                    <p:commandLink styleClass="Fs15 fa fa-sign-out" value=" #{srvdsk['perfil.salir']}"  action="#{loginView.salir}" />
+                </li>
+                <li class="fa fa-ellipsis-v menu-separator"></li>
+                <li>
+                        <p:commandLink styleClass="Fs15 fa fa-wrench" value=" #{srvdsk['menu.administracion']}" actionListener="#{facesLayout.renderContent}" update=":center" rendered="#{perfilView.admin}">
+                            <f:attribute name="center" value="/modulo/admin/registros.xhtml"/>
+                        </p:commandLink>
+                </li>
+
+                <li class="fa fa-ellipsis-v menu-separator"></li>
+                <li>
+                    <a class="Animated05 CursPointer"><i class="fa fa-user"></i> #{perfilView.name}, #{srvdsk['perfil.bienvenido']} <i class="fa fa-chevron-down Fs14 Fright ShowOnMobile"></i></a>
+                    <ul style="width:250px; margin-left:-10px;" class="Animated03 submenu">
+                        <li>
+                            <a class="Animated05">
+                                <i class="fa fa-user Fs30 Fleft"></i>
+                                <span class="Fright Fs20 TexAlRight">#{perfilView.name}
+                                    <span class="Fs10 DispBlock">
+                                        <ui:fragment rendered="true">
+                                            ayer
+                                        </ui:fragment>
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <p:commandLink value=" #{srvdsk['perfil.titulo']}" styleClass="Fs15 fa fa-pencil" actionListener="#{facesLayout.renderContent}" update=":center">
+                                <f:attribute name="center" value="/modulo/usuario/perfil.xhtml"/>
+                            </p:commandLink>
+                        </li>
+                        <li>
+                            <p:commandLink value=" #{srvdsk['perfil.configuracion']}" styleClass="Fs15 fa fa-gear" actionListener="#{facesLayout.renderContent}" update=":center">
+                                <f:attribute name="center" value="/modulo/usuario/configuraciones.xhtml"/>
+                            </p:commandLink>
+                        </li>
+
+                        <li>
+                            <p:commandLink value=" #{srvdsk['perfil.contrasena']}" styleClass="Fs15 fa fa-lock" actionListener="#{facesLayout.renderContent}" update=":center">
+                                <f:attribute name="center" value="/modulo/usuario/contrasena.xhtml"/>
+                            </p:commandLink>
+                        </li>
+
+                        <li>
+                            <p:commandLink styleClass="Animated05" actionListener="#{facesLayout.renderContent}" update=":center" rendered="true">
+                                <i class="fa fa-bell"></i>
+                                    #{srvdsk['dashboard.mensajes']}
+                                <span class="notification-bubble BordRad3 Fright">
+                                    5
+                                </span>
+                                <f:actionListener binding="#{mensajesView.init()}" />
+                                <f:attribute name="center" value="/modulo/usuario/mensajes.xhtml"/>
+                            </p:commandLink>
+                        </li>
+                        <li>
+                            <p:commandLink styleClass="Animated05" actionListener="#{facesLayout.renderContent}" update=":center" rendered="true">
+                                <i class="fa fa-suitcase"></i>
+                                    #{srvdsk['dashboard.tareas']}
+                                <span class="notification-bubble BordRad3 Fright">
+                                  5
+                                </span>
+                                <f:actionListener binding="#{tareasView.init()}" />
+                                <f:attribute name="center" value="/modulo/usuario/tareas.xhtml"/>
+                            </p:commandLink>
+                        </li>
+                    </ul>
+                    <!--<a href="#" class="Animated05"><i class="fa fa-quote-right"></i> Notifications <span class="notification-bubble BordRad3 Fright">18</span></a>-->
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</ui:composition>

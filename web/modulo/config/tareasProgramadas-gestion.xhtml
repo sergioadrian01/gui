@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+    <div class="layout-portlets-box">
+
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <h1 class="BigTopic">#{srvdsk['tareasProgramadas.titulo']}</h1>
+
+                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true">
+                    <p:effect type="bounce" event="load"/>
+                </p:messages>
+
+
+                <p:dataTable id="tareas" var="tareas" value="#{tareasProgramadasGestionView.listTareasProgramadas}"
+                             widgetVar="listTareas"
+                             selection="#{tareasProgramadasGestionView.listTareasProgramadasSelect}"
+                             rowKey="#{tareas.idTareasProgramadas}" editable="true" rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,15" emptyMessage="#{srvdsk['tareasProgramadas.sinregistros']}" resizableColumns="true" scrollable="true" scrollWidth="100%">
+
+
+                    <p:ajax event="rowEdit" listener="#{tareasProgramadasGestionView.actualizarRegistro}" update=":center:tareas"
+                            oncomplete="PF('listTareas').clearSelection();"/>
+
+                    <p:ajax event="rowEditCancel" listener="#{tareasProgramadasGestionView.limpiaSeleccion}"
+                            oncomplete="PF('listTareas').clearSelection();"/>
+
+                    <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.nombre']}" sortBy="#{tareas.nombre}" width="150">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{tareas.nombre}"/></f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="nombreInput" value="#{tareas.nombre}" style="width:90%" required="true"
+                                        requiredMessage="#{srvdsk['tareasProgramadas.nombreRequerido']}"/>
+                                <p:message for="nombreInput" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.detalle']}" sortBy="#{tareas.detalle}" width="150">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{tareas.detalle}"/></f:facet>
+                            <f:facet name="input">
+                                <p:inputText id="detalleInput" value="#{tareas.detalle}" style="width:90%" required="true"
+                                        requiredMessage="#{srvdsk['tareasProgramadas.nombreRequerido']}"/>
+                                <p:message for="detalleInput" />
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.organizacion']}" sortBy="#{tareas.organizacion.nombre}" width="150">
+                        <h:outputText value="#{tareas.organizacion.nombre}"/>
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.localidad']}" sortBy="#{tareas.localidad}" width="150">
+                        <h:outputText value="#{tareas.localidad}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.elemento']}" sortBy="#{tareas.tipoElemento}" width="150" >
+                        <h:outputText value="#{srvdsk['tareasProgramadas.servidor']}" rendered="#{tareas.tipoElemento == 1}" />
+                        <h:outputText value="#{srvdsk['tareasProgramadas.app']}" rendered="#{tareas.tipoElemento == 2}" />
+                        <h:outputText value="#{srvdsk['tareasProgramadas.periferico']}" rendered="#{tareas.tipoElemento == 3}" />
+                        <h:outputText value="#{srvdsk['tareasProgramadas.ddr']}" rendered="#{tareas.tipoElemento == 4}" />
+                        <br/>
+                        <h:outputText value="#{tareas.elementoString}"/>
+                    </p:column>
+
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.usuarioProgramo']}" sortBy="#{tareas.usuario.persona.nombre}" width="150">
+                        <h:outputText value="#{tareas.usuario.persona.nombre} #{tareas.usuario.persona.apellidos}"/>
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.periodo']}" sortBy="#{tareas.periodo}" width="150">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{srvdsk[tareas.periodoNombre]}"/>
+                                <br/>
+                                <p:calendar value="#{tareas.fecha}" readonlyInput="true" rendered="#{tareas.periodo == 5}"
+                                            disabled="true"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="periodo" value="#{tareas.periodoHelp}" required="true"
+                                                 requiredMessage="#{srvdsk['tareasProgramadas.periodoRequerido']}">
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.periodo.dia']}" itemValue="1" />
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.periodo.semana']}" itemValue="2" />
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.periodo.mes']}" itemValue="3" />
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.periodo.annio']}" itemValue="4" />
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.periodo.fechaEspecifica']}" itemValue="5" />
+                                    <p:ajax event="valueChange" update="columnFechas" />
+                                </p:selectOneMenu>
+                                <p:outputPanel id="columnFechas" >
+                                    <p:calendar id="fechaE" showOn="button" required="true" value="#{tareas.fecha}" readonlyInput="true" rendered="#{tareas.periodoHelp == 5}"
+                                                requiredMessage="#{srvdsk['tareasProgramadas.fechaRequerido']}" />
+                                    <p:message for="fechaE" />
+                                </p:outputPanel>
+                            </f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['tareasProgramadas.activo']}" sortBy="#{tareas.periodo}" width="150">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <p:selectOneMenu value="#{tareas.activo}" disabled="true">
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.si']}" itemValue="true"/>
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.no']}" itemValue="false"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{tareas.activo}">
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.si']}" itemValue="true"/>
+                                    <f:selectItem itemLabel="#{srvdsk['tareasProgramadas.no']}" itemValue="false"/>
+                                </p:selectOneMenu>
+                                <p:inputSwitch value="#{tareas.activo}" disabled="true"/>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column style="width:32px">
+                        <p:rowEditor/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton process="tareas" icon="fa fa-trash Fs16 white" value="#{srvdsk['tareasProgramadas.borrar']}" onclick="PF('confirmacionDialogo').show()"/>
+                    </f:facet>
+
+                </p:dataTable>
+
+
+                <p:dialog header="#{srvdsk['tareasProgramadas.borrar']}" widgetVar="confirmacionDialogo" modal="true" showEffect="blind" hideEffect="slide" resizable="false">
+
+                    <p:panelGrid columns="2" columnClasses="Wid20, Wid80" layout="grid" style="border:0 none;background:none">
+
+                        <i class="fa fa-question Fs50"/>
+                        <h:outputText value="#{srvdsk['tareasProgramadas.borrar.leyenda']}"/>
+
+                    </p:panelGrid>
+
+                    <p:commandButton value="#{srvdsk['tareasProgramadas.confirmar']}" process="@this" oncomplete="PF('confirmacionDialogo').hide()" actionListener="#{tareasProgramadasGestionView.eliminarRegistros}" update=":center:tareas" styleClass="Wid100"/>
+
+                </p:dialog>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</ui:composition>

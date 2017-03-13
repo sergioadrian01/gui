@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+<f:view contentType="text/html" encoding="UTF-8" locale="#{localizacion.locale}">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+        </f:facet>
+        <title>Control</title>
+    </h:head>
+    <h:body>
+
+        <h:form>
+            <p:panelGrid columns="1" layout="grid" styleClass="TexAlCenter" style="border:0 none;background:none;text-align:center" >
+
+                <p:clock pattern="dd.MM.yyyy HH:mm:ss " mode="server" />
+
+            </p:panelGrid>
+
+        </h:form>
+
+    </h:body>
+</f:view>
+
+</html>

@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:ps="http://primefaces.org/spark" xmlns:p="http://primefaces.org/ui">
+
+
+    <ps:menu>
+        <f:facet name="options">
+
+            <p:commandButton  icon="fa fa-search Fs18 white" styleClass="Fright" update=":center" actionListener="#{facesLayout.renderContent}" rendered="true">
+
+                <f:attribute name="center" value="/modulo/usuario/dashboard.xhtml"/>
+            </p:commandButton>
+
+            <p:inputText id="etiqueta" placeholder="#{srvdsk['menu.busqueda']}" styleClass="Fright" value="Busqueda" rendered="true"/>
+
+        </f:facet>
+
+
+        <p:menuitem value="#{srvdsk['menu.inicio']}" actionListener="#{facesLayout.renderContent}" update=":center" icon="fa fa-home">
+            <f:attribute name="center" value="/modulo/usuario/dashboard.xhtml"/>
+        </p:menuitem>
+        <p:separator />
+
+
+        <p:menuitem value="Scan" actionListener="#{facesLayout.renderContent}"  update=":center" icon="fa fa-cloud-upload" rendered="#{perfilView.scan}">
+            <f:attribute name="center" value="/modulo/scan/scan.xhtml"/>
+        </p:menuitem>
+        <p:separator rendered="#{perfilView.scan}"/>
+
+        <p:menuitem value="Remote " actionListener="#{facesLayout.renderContent}"  update=":center" icon="fa  fa-gears" rendered="#{perfilView.spark}">
+            <f:attribute name="center" value="/modulo/remote/run.xhtml"/>
+        </p:menuitem>
+        <p:separator rendered="#{perfilView.spark}"/>
+
+        <p:menuitem value="Punch" actionListener="#{facesLayout.renderContent}"  update=":center" icon="fa fa-clock-o" rendered="#{perfilView.punch}">
+            <f:attribute name="center" value="/modulo/punch/registro.xhtml"/>
+        </p:menuitem>
+        <p:separator rendered="#{perfilView.punch}"/>
+
+
+
+    </ps:menu>
+
+
+</ui:composition>

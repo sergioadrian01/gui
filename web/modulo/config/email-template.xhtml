@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+    <div class="layout-portlets-box">
+
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+        <div class="Container100 Responsive100">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic TexAlLeft">#{srvdsk['configuracion.plantilla.titulo']}</h1>
+
+                <p:panelGrid columns="3" columnClasses="Wid10, Wid20, Wid20" layout="grid" style="border:0 none;background:none">
+
+
+                    <h:outputLabel for="organizaciones" value="#{srvdsk['configuracion.plantilla.organizacion']}"/>
+                    <p:selectOneMenu id="organizaciones" value="#{emailTemplateView.orgSeleccionado}">
+                        <f:selectItem itemLabel="#{srvdsk['ticket.select']}" itemValue="0" noSelectionOption="true"/>
+                        <f:selectItems value="#{emailTemplateView.listOrganizacion}" var="orgFilter" itemValue="#{orgFilter.id}" itemLabel="#{orgFilter.nombre}"/>
+                    </p:selectOneMenu>
+
+                    <p:commandButton value="#{srvdsk['configuracion.plantilla.obtener']}" actionListener="#{emailTemplateView.obtenerPlantilla}" process="@all" update=":center"/>
+
+                </p:panelGrid>
+
+            </div>
+        </div>
+
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+
+                <h1 class="BigTopic TexAlLeft">#{srvdsk['configuracion.plantilla.notificacion']}</h1>
+
+
+                <p:inputText placeholder="#{srvdsk['configuracion.plantilla.tema']}" value="#{emailTemplateView.tema}"   style="width: 95%"/>
+
+                <p/>
+                <p:editor id="editor" widgetVar="editorWidget" value="#{emailTemplateView.plantilla}" style="width:100%;"/>
+
+                <p/>
+                <p:commandButton value="#{srvdsk['configuracion.plantilla.guardar']}" actionListener="#{emailTemplateView.guardarPlantilla}" process="@all" update=":center"/>
+
+            </div>
+        </div>
+
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+
+                <h1 class="BigTopic TexAlLeft">#{srvdsk['configuracion.plantilla.variables']}</h1>
+
+                <p:panelGrid columns="2" columnClasses="Wid30, Wid70" layout="grid" style="border:0 none;background:none">
+
+                    <p:outputLabel value="%ticket" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.numeroticket']}"/>
+
+                    <p:outputLabel value="%etapa" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.etapa']}"/>
+
+                    <p:outputLabel value="%descripcion" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.descripcion']}"/>
+
+                    <p:outputLabel value="%org" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.org']}"/>
+
+                    <p:outputLabel value="%creacion" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.creacion']}"/>
+
+                    <p:outputLabel value="%fecha" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.fecha']}"/>
+
+                    <p:outputLabel value="%servicio" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.servicio']}"/>
+
+                    <p:outputLabel value="%categoria" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.categoria']}"/>
+
+                    <p:outputLabel value="%subcategoria" style="font-weight: bold"/>
+                    <p:outputLabel value="#{srvdsk['configuracion.plantilla.subcategoria']}"/>
+
+
+                </p:panelGrid>
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</ui:composition>

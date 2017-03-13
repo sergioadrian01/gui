@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <div class="layout-portlets-box">
+        <div class="Container100">
+            <div class="ContainerIndent TexAlLeft">
+                <div class="Fleft">
+                    <h2 class="black Fs24 FontRalewayMedium">#{srvdsk['mensajes.mensajes']}</h2>
+                </div>
+            </div>
+            <div class="Seperator"></div>
+            <p/>
+            <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
+                <p:dataTable id="mensajes" var="notificacion" value="#{mensajesView.listNotificacionMensajes}"
+                             rows="75" paginator="true" rowKey="#{notificacion.idNotificacion}"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="50,75,100" emptyMessage="#{srvdsk['mensajes.sinMensajes']}"
+                             widgetVar="mensajesTabla">
+                    <f:facet name="header">
+                        #{srvdsk['mensajes.mensajes']}
+                    </f:facet>
+
+                    <p:column headerText="#{srvdsk['mensajes.titulo']}" footerText="#{srvdsk['mensajes.titulo']}" >
+                        <h:outputText value="#{notificacion.titulo}" />
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['mensajes.contenido']}" footerText="#{srvdsk['mensajes.contenido']}" >
+                        <h:outputText value="#{notificacion.contenido}" />
+                    </p:column>
+
+                    <p:column headerText="#{srvdsk['mensajes.fecha']}" sortBy="#{notificacion.fecha}"
+                              footerText="#{srvdsk['mensajes.fecha']}" >
+                        <h:outputText value="#{notificacion.fecha}">
+                            <f:convertDateTime pattern="dd-MM-yyyy HH:mm" />
+                        </h:outputText>
+
+                    </p:column>
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton  icon="ui-icon-search" title="#{srvdsk['ticket.detalle']}" update=":center"
+                                          actionListener="#{facesLayout.renderContent}" ajax="false" disabled="#{notificacion.ticketId == null}">
+                            <f:setPropertyActionListener value="#{notificacion.ticketId}" target="#{seguimientoTicketView.ticket}" />
+                            <f:actionListener binding="#{seguimientoTicketView.cargaInfoTicket()}" />
+                            <f:attribute name="center" value="/modulo/ticket/detalle-ticket.xhtml"/>
+                        </p:commandButton>
+                    </p:column>
+
+
+                    <p:column style="width:32px;text-align: center">
+                        <p:commandButton id="delete" process="mensajes" actionListener="#{mensajesView.deleteMessage(notificacion)}" update=":center" icon="ui-icon-trash" title="Delete" />
+                    </p:column>
+
+                </p:dataTable>
+
+            </h:panelGrid>
+
+        </div>
+    </div>
+
+
+</ui:composition>

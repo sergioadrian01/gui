@@ -1,0 +1,148 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:m="http://code.google.com/p/gmaps4jsf/" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+
+    <script language="javascript">
+        function verify_geolocation_capability() {
+            if (navigator.geolocation) {
+                document.form1.capability.value = "Enabled";
+            }
+            else {
+                document.form1.capability.value = "Not Enabled";
+            }
+        }
+
+        function display_geolocation_entrada(position) {
+            document.form1.capability.value = "W o r k i n g . . .";
+            document.form1.latitude.value = position.coords.latitude;
+            document.form1.longitude.value = position.coords.longitude;
+            entrada();
+        }
+
+        function display_geolocation_comida(position) {
+            document.form1.capability.value = "W o r k i n g . . .";
+            document.form1.latitude.value = position.coords.latitude;
+            document.form1.longitude.value = position.coords.longitude;
+            comida();
+        }
+
+        function display_geolocation_regreso(position) {
+            document.form1.capability.value = "W o r k i n g . . .";
+            document.form1.latitude.value = position.coords.latitude;
+            document.form1.longitude.value = position.coords.longitude;
+            regreso();
+        }
+
+        function display_geolocation_salida(position) {
+            document.form1.capability.value = "W o r k i n g . . .";
+            document.form1.latitude.value = position.coords.latitude;
+            document.form1.longitude.value = position.coords.longitude;
+            salida();
+        }
+
+        function handle_error(error) {
+            document.form1.capability.value = "ERROR: " + error.code;
+        }
+
+        function retrieve_entrada() {
+            if (navigator.geolocation) {
+                document.form1.capability.value = "Starting...";
+                navigator.geolocation.getCurrentPosition(display_geolocation_entrada, handle_error);
+                document.form1.capability.value = "Finished";
+            }
+            else {
+                alert("This browser does not support geolocation services.");
+            }
+        }
+
+        function retrieve_comida() {
+            if (navigator.geolocation) {
+                document.form1.capability.value = "Starting...";
+                navigator.geolocation.getCurrentPosition(display_geolocation_comida, handle_error);
+                document.form1.capability.value = "Finished";
+            }
+            else {
+                alert("This browser does not support geolocation services.");
+            }
+        }
+
+        function retrieve_regreso() {
+            if (navigator.geolocation) {
+                document.form1.capability.value = "Starting...";
+                navigator.geolocation.getCurrentPosition(display_geolocation_regreso, handle_error);
+                document.form1.capability.value = "Finished";
+            }
+            else {
+                alert("This browser does not support geolocation services.");
+            }
+        }
+
+        function retrieve_salida() {
+            if (navigator.geolocation) {
+                document.form1.capability.value = "Starting...";
+                navigator.geolocation.getCurrentPosition(display_geolocation_salida, handle_error);
+                document.form1.capability.value = "Finished";
+            }
+            else {
+                alert("This browser does not support geolocation services.");
+            }
+        }
+    </script>
+
+    <h:form name="form1" id="form1">
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic TexAlLeft">Registro de eventos</h1>
+
+                <iframe src="/Control/modulo/punch/clock.xhtml" frameborder="0" width="100%" height="50" scrolling="no"/>
+
+
+                <input type="hidden" name="capability" value="Unknown"/>
+                <input type="hidden" name="latitude" value="#{coordenadas.latitud}"/>
+                <input type="hidden" name="longitude" value="#{coordenadas.longitud}"/>
+
+
+                <p:commandButton type="button" id="entrada" value="Entrada" icon="fa fa-arrow-right Fs16 white" styleClass="Wid100" onclick="retrieve_entrada()" disabled="#{coordenadas.entrada}">
+                    <f:ajax render="placeMap"/>
+                </p:commandButton>
+                <p:spacer height="10"/>
+
+                <p:commandButton type="button" id="comida" value="Inicio de comida" icon="fa fa-pause Fs16 white" styleClass="Wid100" onclick="retrieve_comida()" disabled="#{coordenadas.comida}"/>
+                <p:spacer height="10"/>
+
+                <p:commandButton type="button" id="regreso" value="Fin de comida" icon="fa fa-play Fs16 white" styleClass="Wid100" onclick="retrieve_regreso()" disabled="#{coordenadas.regreso}"/>
+                <p:spacer height="10"/>
+
+                <p:commandButton type="button" id="salida" value="Salida" icon="fa fa-arrow-left Fs16 white" styleClass="Wid100" onclick="retrieve_salida()" disabled="#{coordenadas.salida}"/>
+                <p:spacer height="10"/>
+
+                <p:remoteCommand name="entrada" update=":form1:entrada :form1:placeMap" actionListener="#{coordenadas.registroEntrada}"/>
+                <p:remoteCommand name="comida"  update=":form1:comida :form1:placeMap" actionListener="#{coordenadas.registroComida}"/>
+                <p:remoteCommand name="regreso" update=":form1:regreso :form1:placeMap" actionListener="#{coordenadas.registroRegreso}"/>
+                <p:remoteCommand name="salida"  update=":form1:salida :form1:placeMap" actionListener="#{coordenadas.registroSalida}"/>
+
+
+            </div>
+
+        </div>
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic TexAlLeft">Localizacion</h1>
+
+
+                <h:panelGroup id="placeMap">
+                    <m:map width="500" height="450px" showDefaultControls="true" partiallyTriggered="true" zoom="18" latitude="#{coordenadas.latitud}" longitude="#{coordenadas.longitud}" enableScrollWheelZoom="true">
+                        <m:marker immediate="true">
+
+                        </m:marker>
+                    </m:map>
+                </h:panelGroup>
+
+
+
+            </div>
+        </div>
+
+    </h:form>
+
+</ui:composition>

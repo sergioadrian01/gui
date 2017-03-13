@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+
+
+    <div class="layout-portlets-box">
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+                <h1 class="BigTopic">#{srvdsk['perfil.configuracion']}</h1>
+
+                <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true">
+                    <p:effect type="bounce" event="load"/>
+                </p:messages>
+
+                <div class="ContainerIndent TexAlLeft">
+
+                    <p:panelGrid columns="2" columnClasses="Wi30, Wid70" layout="grid" style="border:0 none;background:none">
+
+
+                        <p:outputLabel for="color" value="#{srvdsk['perfil.color']}"/>
+                        <p:selectOneMenu id="color" value="#{perfilView.color}"  required="true" requiredMessage="#{srvdsk['perfil.color.requerido']}" style="width: 250px">
+                            <f:selectItem itemLabel="#{srvdsk['perfil.color.seleccione']}" noSelectionOption="true" itemValue="" />
+                            <f:selectItem itemLabel="#{srvdsk['perfil.color.azul']}"  itemValue="blue" />
+                            <f:selectItem itemLabel="#{srvdsk['perfil.color.verde']}" itemValue="green" />
+                            <f:selectItem itemLabel="#{srvdsk['perfil.color.anaranjado']}" itemValue="orange" />
+                            <f:selectItem itemLabel="#{srvdsk['perfil.color.rojo']}" itemValue="red" />
+                        </p:selectOneMenu>
+
+
+                    </p:panelGrid>
+
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="Container50 Responsive50">
+            <div class="ContainerIndent TexAlLeft">
+
+
+
+                <div class="ContainerIndent TexAlCenter">
+
+                    <div class="EmptyBox50"></div>
+
+                    <p:commandButton value="#{srvdsk['perfil.guardar']}" ajax="false" action="#{perfilView.guardarConfiguracion}"  styleClass="Wid100" />
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+</ui:composition>

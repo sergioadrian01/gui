@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <div class="layout-portlets-box">
+
+        <p:messages id="messages" showSummary="false" showDetail="true" autoUpdate="true" closable="true">
+            <p:effect type="bounce" event="load"/>
+        </p:messages>
+
+        <h:form>
+
+            <div class="Container50 Responsive50">
+                <div class="ContainerIndent TexAlLeft">
+                    <h1 class="BigTopic TexAlLeft">#{srvdsk['smtp.title']}</h1>
+
+
+                    <p:panelGrid id="datos" columns="2" columnClasses="Wid30, Wid70" layout="grid" style="border:0 none;background:none">
+
+                        <p:outputLabel for="host" value="#{srvdsk['smtp.host']}"/>
+                        <p:inputText id="host" value="#{smtpView.host}" style="width: 250px"/>
+
+                        <p:outputLabel for="puerto" value="#{srvdsk['smtp.port']}"/>
+                        <p:inputText id="puerto" value="#{smtpView.port}" style="width: 250px"/>
+
+                        <p:outputLabel for="sender" value="#{srvdsk['smtp.sender']}"/>
+                        <p:inputText id="sender" value="#{smtpView.sender}" style="width: 250px"/>
+
+                        <p:outputLabel for="req" value="#{srvdsk['smtp.autenticacion']}"/>
+                        <p:inputSwitch id="req" value="#{smtpView.req}" offLabel="#{srvdsk['admon.rol.administrador.no']}" onLabel="#{srvdsk['admon.rol.administrador.si']}"/>
+
+                        <p:outputLabel for="usuario" value="#{srvdsk['smtp.user']}"/>
+                        <p:inputText id="usuario" value="#{smtpView.user}" style="width: 250px"/>
+
+                        <p:outputLabel for="pass" value="#{srvdsk['smtp.password']}"/>
+                        <p:password id="pass" value="#{smtpView.pass}" style="width: 250px"/>
+
+                        <p:outputLabel for="tls" value="#{srvdsk['smtp.tls']}"/>
+                        <p:inputSwitch id="tls" value="#{smtpView.tls}" offLabel="#{srvdsk['admon.rol.administrador.no']}" onLabel="#{srvdsk['admon.rol.administrador.si']}"/>
+
+                    </p:panelGrid>
+
+                </div>
+            </div>
+
+
+            <div class="Container50 Responsive50">
+                <div class="ContainerIndent TexAlLeft">
+
+                    <p:spacer height="10px"/>
+                    <p:commandButton value="#{srvdsk['catalogos.dispositivo.guardar.titulo']}" ajax="false" type="button" onclick="PF('confirmacionDialogo').show()" styleClass="Wid100"/>
+
+
+                </div>
+            </div>
+
+
+            <p:dialog header="#{srvdsk['catalogos.dispositivo.guardar.titulo']}" widgetVar="confirmacionDialogo" modal="true" showEffect="blind" hideEffect="slide" resizable="false">
+
+                <p:panelGrid columns="2" columnClasses="Wid20, Wid80" layout="grid" style="border:0 none;background:none">
+
+                    <i class="fa fa-question Fs50"/>
+                    <h:outputText value="#{srvdsk['catalogos.dispositivo.guardar.leyenda']}"/>
+
+                </p:panelGrid>
+
+                <p:commandButton value="#{srvdsk['catalogos.dispositivo.confirmar']}" oncomplete="PF('confirmacionDialogo').hide()" actionListener="#{smtpView.guardarDatos}" update=":center" styleClass="Wid100"/>
+
+            </p:dialog>
+        </h:form>
+
+    </div>
+
+
+</ui:composition>

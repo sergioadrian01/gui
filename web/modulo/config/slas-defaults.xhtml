@@ -1,0 +1,322 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui" xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <div class="layout-portlets-box">
+        <div class="Container100">
+            <div class="ContainerIndent TexAlLeft">
+                <div class="Fleft">
+                    <h2 class="black Fs24 FontRalewayMedium">#{srvdsk['configuracion.slas.predeterminados']}</h2>
+                    <span class="Fs15 gray FontRalewayRegular DispBlock">#{srvdsk['configuracion.slas.titulo']}</span>
+                </div>
+            </div>
+            <div class="Seperator"></div>
+            <p />
+            <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
+            <h:panelGrid id="control" columns="2" cellpadding="5" style="width: 100%" columnClasses="alignTop, alignTop">
+
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <p:outputLabel for="requerimiento" value="#{srvdsk['configuracion.slas.tipo']}"/>
+                    <p:selectOneMenu id="requerimiento" value="#{defaultsView.seleccion}" valueChangeListener="#{defaultsView.identificarSeleccion}" style="min-width:200px; width:220px;">
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.seleccione']}" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.tipo.solicitud']}" itemValue="SG-R-00"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.tipo.incidente']}" itemValue="SG-R-01"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.tipo.problema']}" itemValue="SG-R-02"/>
+                        <p:ajax event="valueChange" process="@form" update=":center" listener="#{defaultsView.establecerValores}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="criticidad" value="#{srvdsk['configuracion.slas.criticidad']}"/>
+                    <p:selectOneMenu id="criticidad" value="#{defaultsView.criticidad}" style="min-width:200px; width:220px;" valueChangeListener="#{defaultsView.establecerCriticidad}" disabled="#{defaultsView.bloqueo}">
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.criticidad.seleccione']}" itemValue="" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.criticidad.critica']}" itemValue="SG-C-00"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.criticidad.alta']}" itemValue="SG-C-01"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.criticidad.media']}" itemValue="SG-C-02"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.criticidad.baja']}" itemValue="SG-C-03"/>
+                        <f:selectItem itemLabel="#{srvdsk['configuracion.slas.criticidad.planificada']}" itemValue="SG-C-04"/>
+                        <p:ajax event="valueChange" process="@this" update=":center:control"/>
+                    </p:selectOneMenu>
+
+
+                    <p:outputLabel for="sla" value="#{srvdsk['configuracion.slas.nivel']}"/>
+                    <p:spinner id="sla" value="#{defaultsView.sla}" placeholder="0 Hrs" size="10" min="0" max="500" valueChangeListener="#{defaultsView.actualizarSLA}" disabled="#{defaultsView.bloqueo}">
+                        <p:ajax event="valueChange" process="@this" update=":center:control"/>
+                        <p:ajax event="keyup" process="@this" update=":center:control"/>
+                    </p:spinner>
+
+                </h:panelGrid>
+
+                <h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5" columnClasses="TexAlCenter">
+
+
+                    <pe:knob id="perilla" disabled="true" labelTemplate="{value}m" foregroundColor="#2C9FD6" backgroundColor="#E9F0F4" min="0" max="#{defaultsView.sla eq null ? 0 :(defaultsView.sla * 60)}" value="#{defaultsView.sumatoriaHoras}"/>
+
+                    <h:outputLabel value="#{srvdsk['configuracion.slas.acumulado']}"/>
+                    <p:commandButton value="#{srvdsk['configuracion.slas.guardar']}" style="width: 100%" actionListener="#{defaultsView.guardarConfiguracion}" disabled="#{defaultsView.error}"/>
+
+                </h:panelGrid>
+
+            </h:panelGrid>
+        </div>
+    </div>
+
+
+    <div class="layout-portlets-box">
+        <div class="Container100">
+            <div class="ContainerIndent TexAlLeft">
+                <div class="Container100">
+                    <div class="Fleft">
+                        <span class="Fs15 gray FontRalewayRegular DispBlock">#{srvdsk['configuracion.slas.ciclo']}</span>
+                    </div>
+                </div>
+                <div class="Seperator"></div>
+
+                <p:panelGrid columns="4" columnClasses="Wid25, Wid25, Wid25, Wid25" styleClass="Wid100 TexAlCenter" layout="grid" style="border:0 none;background:none">
+
+                    <p:panel style="border:0 none;background:none;">
+                        <div class="BorderedBox  TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-bullhorn Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.reportado']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="reportado" value="#{defaultsView.reportado.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.reportado.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.reportado.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-flag Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.iniciado']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="iniciado" value="#{defaultsView.iniciado.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.iniciado.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.iniciado.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                    <p:panel style="border:0 none;background:none;">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-arrow-circle-down Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.sitedesk']}</div>
+                                <div class="EmptyBox10"></div>
+
+                                <p:spinner id="asignadositio" value="#{defaultsView.sitioDesk.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600"  disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.sitioDesk.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.sitioDesk.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-car Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.siteresolutor']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="resolutorsitio" value="#{defaultsView.sitioResolutor.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.sitioResolutor.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.sitioResolutor.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-laptop Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.remotedesk']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="asignadoremoto" value="#{defaultsView.remotoDesk.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.remotoDesk.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.remotoDesk.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-phone-square Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.remoteresolutor']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="resolutorremoto" value="#{defaultsView.remotoResolutor.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.remotoResolutor.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.remotoResolutor.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-warning  Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.incidentemayor']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="incidentemayor" value="#{defaultsView.incidenteMayor.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.incidenteMayor.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.incidenteMayor.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-check-circle  Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.resuelto']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="resuelto" value="#{defaultsView.resuelto.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.resuelto.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.resuelto.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+
+                    <p:panel style="border:0 none;background:none">
+                        <div class="BorderedBox TexAlCenter">
+                            <div class="ContainerIndent">
+                                <div class="EmptyBox10"></div>
+                                <i class="fa fa-thumbs-up  Fs40 blue"/>
+
+                                <div class="Fs14 gray FontRalewayRegular">#{srvdsk['configuracion.slas.ciclo.confirmado']}</div>
+                                <div class="EmptyBox10"></div>
+                                <p:spinner id="confirmado" value="#{defaultsView.confirmado.vigencia}" stepFactor="15" placeholder="Min" size="10" min="0" max="600" valueChangeListener="#{defaultsView.calcularAcumulado}" disabled="#{defaultsView.bloqueo}">
+                                    <p:ajax event="valueChange" process="@this" update=":center"/>
+                                    <p:ajax event="keyup" process="@this" update=":center"/>
+                                </p:spinner>
+                                <p:panel style="border:0 none;background:none;">
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.confirmado.notificar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.notificar']}" disabled="#{defaultsView.bloqueo}"/>
+
+                                    <div class="EmptyBox10"></div>
+                                    <p:selectBooleanCheckbox value="#{defaultsView.confirmado.escalar}" styleClass="Fleft" itemLabel="#{srvdsk['configuracion.slas.ciclo.escalate']}" disabled="#{defaultsView.bloqueo}" rendered="false"/>
+                                </p:panel>
+
+                                <div class="EmptyBox10"></div>
+                            </div>
+                        </div>
+                    </p:panel>
+
+                </p:panelGrid>
+
+            </div>
+        </div>
+    </div>
+
+
+</ui:composition>
